@@ -16,14 +16,5 @@ optionsList.forEach(o => {
 });
 
 
-// $details = document.querySelectorAll("#details");
-
-//  $details.forEach(o => {
-//   o.addEventListener("click", () => {
-//     selected.innerHTML = o.querySelector("label").innerHTML;
-//     optionsContainer.classList.remove("active");
-//   });
-// });
-
 
 },{}]},{},[1]);

@@ -1,7 +1,5 @@
-$dtls = $(".details");
-
-$(document).ready(function() {
-  
+function inputReady(){
+  $dtls = $(".details");
     updateInputs();
 
     $($dtls).focusout(function(){
@@ -9,22 +7,14 @@ $(document).ready(function() {
         $(this).attr( "type", "hidden" );
         updateInputs();
     });
-
-    // if($( $dtls).hasClass("active") && $( $dtls).val()=="Add details"){
-    //     $( $dtls).hide();
-    // }
-
-  });
+  }
 
   function updateInputs(){
-   
+    $dtls = $(".details");
     $(".card-body").click(function(){
-        console.log( $(this).find($dtls));
+       // console.log( $(this).find($dtls));
         $(this).find($dtls).attr( "type", "text" );
         $(this).find($dtls).focus();
-      //  if($(this).hasClass("active"))
-       // $(this).find($(".active")).attr( "type", "text" );
-       // else $(this).find($dtls).addClass("active");
     });
     $dtls.click(function(){
         if( $(this).val()=="Add details")
@@ -35,3 +25,5 @@ $(document).ready(function() {
         $(this).val("");
     });
   }
+
+  exports.inputReady = inputReady;
