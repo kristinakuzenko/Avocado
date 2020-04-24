@@ -29,7 +29,13 @@
         <div class="filter">
             <div class="panel">
                 <div class="container">
-                    <div class="for-input">
+                    <form autocomplete="off" action="/action_page.php">
+                        <div class="autocomplete for-input" style="width:300px;">
+                          <input id="myInput" class="myinput form-control" type="text" name="myCountry" placeholder="What would you like to buy?">
+                        </div>
+                        <input type="submit">
+                      </form>
+                <div class="for-input">
                         <input type="text" class="myinput form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="What would you like to buy?">
                     </div>
 <div class="row" id="mainRow">
@@ -66,23 +72,12 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-xl-6" id="colListProd">
-                        <div class="select-box">
-                            <div id="product-container" class="options-container">
-
-    
-                            </div>
-    <div id="filter">
-        <div class="selected fruits">
-            Fruits
-        </div>
-    </div>
-
-                        </div>
+                    <div id="filter" class="col-sm-12 col-xl-6" id="colListProd">
                     </div>
                 </div>  
                    
                 </div>
+
 
                 <!--Own JavaScript -->
                 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

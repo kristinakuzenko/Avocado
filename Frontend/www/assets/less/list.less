@@ -96,7 +96,7 @@ font-size: 25px;
   
     order: 1;
   }
-  .options-container.active {
+  .options-container-active {
     max-height: 240px;
     opacity: 1;
     overflow-y: scroll;
@@ -364,4 +364,26 @@ img{
 #in-list-pr{
   text-decoration: line-through;
 }
+//acodeon
+.item {
+.title{
+  cursor: pointer;
+}
+  .description {
+      height:0;
+      overflow: hidden;
+      display:flex;
+      flex-wrap: wrap;
+      transition: 0.4s height ease-in;
+  }
 
+  &.expanded {
+      .description {
+        height: 310px;
+        opacity: 1;
+        overflow-y: scroll;
+        display:flex;
+        flex-wrap: wrap;
+       }
+  }
+}
