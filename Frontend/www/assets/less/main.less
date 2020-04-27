@@ -9,6 +9,9 @@ p{
     font-family: 'Caveat Brush', cursive;
     font-size: 1.7rem;
 }
+.row{
+    margin-top: 30px;
+}
 .card{
     background-color: #fff293!important;
     background-image: linear-gradient(315deg, #fff293 0%, #ffe884 74%)!important;
@@ -19,7 +22,7 @@ p{
         font-size:1.2rem!important;
     }
  }
- 
+
  .a, .btn-primary{
      background-color:rgb(230,231,227)!important;
      border-color:grey!important;
@@ -32,3 +35,54 @@ p{
     background-image: linear-gradient(315deg, #f9d1b7 0%, #f894a4 74%);
      color:rgb(33,37,41)!important;
  }
+ #current-icon {
+    width: 140px;
+    height: 140px;
+    border: none;
+    border-radius: 50px;
+    padding: 30px;
+    display: flex;
+  }
+  
+  #temperature-icon {
+    width: 20px;
+    height: 23px;
+  }
+  
+
+  
+  .current-weather-details {
+    width: 200px;
+    height: 230px;
+    padding: 10px;
+    border-radius: 10px;
+    justify-content: center;
+    align-content: space-around;
+    flex-wrap: wrap;
+
+  }  
+  #current-temperature {
+    cursor: pointer;
+  }
+
+  .weather {
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 16px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  padding: 10px;
+    line-height: 18px;
+   opacity: 0.8;
+  }
+  .back{
+      background-color: @pink;
+      width: 200px;
+      text-align: center;
+  }
+  .none{
+    display: none;
+  }

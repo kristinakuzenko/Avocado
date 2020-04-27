@@ -1,5 +1,4 @@
 var Templates = require('./Templates');
-var details = require('./details');
 var api = require('./API');
 var $filter = $("#filter");
 var Filter = require('./Filter');

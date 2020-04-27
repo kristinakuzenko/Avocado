@@ -61,6 +61,41 @@ var filter = [
 ];
 module.exports = filter;
 },{}],3:[function(require,module,exports){
+var suggestion = [
+    {
+    title:"Barbecue time",
+    icon: 'assets/images/suggestions/bbq.jpg',
+    reason:1
+    },
+    {
+        title:"Cocktail party",
+        icon: 'assets/images/suggestions/cocktail.jpg',
+        reason:7
+    },
+    {
+        title:"Tea at home",
+        icon: 'assets/images/suggestions/tea.jpg',
+        reason:2
+    },
+    {
+        title:"Movies time",
+        icon: 'assets/images/suggestions/popcorn.jpg',
+        reason:4
+    },
+    {
+        title:"Picnic",
+        icon: 'assets/images/suggestions/picnic.jpg',
+        reason:5
+    },
+    {
+        title:"Night",
+        icon: 'assets/images/suggestions/night.jpg',
+        reason:6
+    },
+        
+    ];
+    module.exports = suggestion;
+},{}],4:[function(require,module,exports){
 
 var ejs = require('ejs');
 
@@ -68,37 +103,55 @@ var ejs = require('ejs');
 exports.BuyList_OneItem = ejs.compile("<div class=\"bi-wrapper card\">\r\n    <div id=\"in-list\" class=\" card-body disp item\">\r\n    </div>\r\n    <div id=\"in-list-pr\" class=\"bg-text prod-text item\">\r\n        <span class=\"card-text\" ><%= product.title %></span> \r\n    </div>\r\n        <div id=\"pr\" style=\"background-image: url('<%= product.icon %>') ;\" class=\"prod bg-image card-body\">\r\n        </div>\r\n        <div id=\"pr\" class=\"bg-text prod-text\">\r\n            <span class=\"card-text\" ><%= product.title %></span> \r\n        </div>\r\n        <input type=\"hidden\" class=\"details\" value=\"Add details\" style=\"width: 7rem;\">\r\n\r\n    </div>\r\n");
 exports.BuyList_OneCategory = ejs.compile("<div class=\"item\">\r\n  <div  class=\"title mashoplist\"> <%= filter.title %></div>\r\n  <div id=\"desc\" class=\"description\"> </div>\r\n</div>");
 exports.Note_Item = ejs.compile("<li class=\"d-flex flex-row justify-content-between\">\r\n    <div class=\"p-2\"><%= product.title %></div>\r\n     \r\n    <div class=\"question\">\r\n        <input type=\"text\" placeholder=\"Description\"/>\r\n       \r\n      </div>\r\n    <div id=\"prodPrice\">\r\n        <input type=\"text\" placeholder=\"Price\"/>$\r\n    </div>\r\n    <span class=\"close\">x</span>\r\n</li>");
-},{"ejs":7}],4:[function(require,module,exports){
-function inputReady(){
-  $dtls = $(".details");
-    updateInputs();
+exports.Suggestion = ejs.compile("<div class=\"col-md-4 mb-5\" >\n    <div class=\"card \">\n        <div class=\"card-body\">\n            <h2 class=\"card-title\"><%= suggestion.title %></h2>\n                <img class=\"card-img-top\" src='<%= suggestion.icon %>' alt=\"Card image cap\">\n            <p class=\"card-text\"></p>\n        </div>\n        <div class=\"card-footer\">\n            <div class=\"d-flex justify-content-around\">\n                <a href=\"#\" class=\"btn btn-primary\">\n                    <svg class=\"bi bi-reply-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path d=\"M9.079 11.9l4.568-3.281a.719.719 0 000-1.238L9.079 4.1A.716.716 0 008 4.719V6c-1.5 0-6 0-7 8 2.5-4.5 7-4 7-4v1.281c0 .56.606.898 1.079.62z\"/>\n      </svg> Share\n                </a>\n                <a href=\"#\" class=\"btn btn-primary\">\n                    <svg class=\"bi bi-plus-square-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" d=\"M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z\" clip-rule=\"evenodd\"/>\n      </svg> Add items to list</a>\n            </div>\n        </div>\n    </div>\n</div>");
+},{"ejs":8}],5:[function(require,module,exports){
+var Templates = require('./Templates');
+var Suggestion = require('./Suggestion');
+var $suggestion = $("#suggestion");
+function showSug(list) {
+    var temp=$('#sug').text();
 
-    $($dtls).focusout(function(){
-        if( $(this).val()=="" || $(this).val()=="Add details")
-        $(this).attr( "type", "hidden" );
-        updateInputs();
-    });
-  }
+    var info=$('#info').text();
+    $suggestion.html("");
+    function showOneSug(suggestion) {
+        var html_code = Templates.Suggestion({ suggestion: suggestion });
+        var $node = $(html_code);
+        if(temp<15&& suggestion.reason==2){
+            $suggestion.append($node);
+        }
+        if(temp>=15&& suggestion.reason==7){
+            $suggestion.append($node);
+        }
+        if(info=="clear-day"&& suggestion.reason==1){
+            $suggestion.append($node);
+        }
+        if((info=="clear-night"||info=="partly-cloudy-night")&& suggestion.reason==6){
+            $suggestion.append($node);
+        }
+        if((info=="rain"||info=="snow"||info=="sleet"||info=="wind"||info=="fog"||info=="hail"||info=="thunderstorm"||info=="tornado")&& suggestion.reason==4){
+            $suggestion.append($node);
+        }
+        if((info=="partly-cloudy-day"||info=="cloudy")&& suggestion.reason==5){
+            $suggestion.append($node);
+        }
+    }
+    list.forEach(showOneSug);
+}
+$("#show-sug").click(function() {
+    showSug(Suggestion);
+});
+$("#more").click(function() {
+    $("#current-weather-details").removeClass('none');
+    $("#current-weather-details").addClass('current-weather-details');
+    $("#more").addClass('none');
+});
+$("#hide").click(function() {
+    $("#current-weather-details").addClass('none');
+    $("#current-weather-details").removeClass('current-weather-details');
+    $("#more").removeClass('none');
+});
 
-  function updateInputs(){
-    $dtls = $(".details");
-    $(".card-body").click(function(){
-       // console.log( $(this).find($dtls));
-        $(this).find($dtls).attr( "type", "text" );
-        $(this).find($dtls).focus();
-    });
-    $dtls.click(function(){
-        if( $(this).val()=="Add details")
-        $(this).val("");
-    });
-    $dtls.keypress(function(){
-        if( $(this).val()=="Add details")
-        $(this).val("");
-    });
-  }
-
-  exports.inputReady = inputReady;
-},{}],5:[function(require,module,exports){
+},{"./Suggestion":3,"./Templates":4}],6:[function(require,module,exports){
 var Templates = require('./Templates');
 var details = require('./details');
 var api = require('./API');
@@ -246,6 +299,11 @@ $(".name span").html(name);
       }
     
   });
+
+
+
+
+  
   function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
@@ -350,9 +408,9 @@ $(".name span").html(name);
 
 
 
-},{"./API":1,"./Filter":2,"./Templates":3,"./details":4}],6:[function(require,module,exports){
+},{"./API":1,"./Filter":2,"./Templates":4,"./details":5}],7:[function(require,module,exports){
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1334,7 +1392,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1503,7 +1561,7 @@ exports.cache = {
   }
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports={
   "_from": "ejs@^2.4.1",
   "_id": "ejs@2.7.4",
@@ -1573,7 +1631,7 @@ module.exports={
   "version": "2.7.4"
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -1879,7 +1937,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":11}],11:[function(require,module,exports){
+},{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2065,4 +2123,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[5]);
+},{}]},{},[6]);

@@ -33,6 +33,10 @@ module.exports = function(grunt) {
                 src: 'Frontend/src/main.js',
                 dest: 'Frontend/www/assets/js/main.js',
             },
+            weather: {
+                src: 'Frontend/src/weather.js',
+                dest: 'Frontend/www/assets/js/weather.js',
+            },
             list: {
                 src: 'Frontend/src/list.js',
                 dest: 'Frontend/www/assets/js/list.js'
@@ -80,6 +84,7 @@ module.exports = function(grunt) {
         'browserify:main',
         'browserify:list',
         'browserify:details',
+        'browserify:weather',
         'less',
         //Інші завдання які необхідно виконати
     ]);
