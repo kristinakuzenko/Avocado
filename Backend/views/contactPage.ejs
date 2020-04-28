@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
-
+    <style>
+        body {
+            background-image: url("assets/images/paper.jpg");
+        }
+    </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet/less" type="text/css" href="assets/less/contact.less" />
     <link rel="stylesheet/less" type="text/css" href="assets/less/main.less" />
@@ -33,14 +37,14 @@
                     </p>
 
                     <div class="find-widget">
-                        Company: <a href="https://hostriver.ro">BuyMeAvocado</a>
+                        Company: <a href="">BuyMeAvocado</a>
                     </div>
                     <div class="find-widget">
                         Phone: <a href="#">+ 879-890-9767</a>
                     </div>
 
                     <div class="find-widget">
-                        Website: <a href="https://uny.ro">www.uny.ro</a>
+                        Website: <a href="">buymeavocado</a>
                     </div>
                     <div class="find-widget">
                         Program: <a href="#">Mon to Sat: 09:30 AM - 10.30 PM</a>
@@ -48,7 +52,8 @@
                 </div>
                 <!-- contact form -->
                 <div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">
-                    <form class="shake" role="form" method="post" id="contactForm" name="contact-form" data-toggle="validator">
+                    <form   action="https://formspree.io/mzbjpaez"
+                    method="POST" class="shake" role="form"  id="contactForm" name="contact-form" data-toggle="validator">
                         <!-- Name -->
                         <div class="form-group label-floating">
                             <label class="control-label" for="name">Name</label>
@@ -75,7 +80,7 @@
                         </div>
                         <!-- Form Submit -->
                         <div class="form-submit mt-5">
-                            <button class="btn btn-common" type="submit" id="form-submit"><i class="material-icons mdi mdi-message-outline"></i> Send Message</button>
+                            <button class="btn btn-primary" type="submit" id="form-submit"><i class="material-icons mdi mdi-message-outline"></i> Send Message</button>
                             <div id="msgSubmit" class="h3 text-center hidden"></div>
                             <div class="clearfix"></div>
                         </div>
@@ -85,3 +90,4 @@
         </div>
 </div>
 </section>
+

@@ -7,7 +7,6 @@ var ProdList = [];
 var suggestion=[];
 var TOTALSUM = 0;
 var noteItem_height = 67;
-//var ProductListJson = require('Avocado-master/Backend/data/Product_List')
 
 function showFilter(list) {
     $filter.html("");
@@ -26,7 +25,7 @@ function showFilter(list) {
                 $product_list.append($node);
                 suggestion.push(product.title);
 
-              function updateList(){
+              function updateList(){     
                     $note.html("");
 
                     function showListItem(prod) {
@@ -40,12 +39,13 @@ function showFilter(list) {
                         $node1.find(".descInputs").val(prod.desc);
                         $node1.find(".descInputs").focusout(function(){
                           prod.desc = $(this).val();
+                          localStorage.setItem('allItems', JSON.stringify(ProdList));
                         });
                         $node1.find(".priceInputs").focusout(function(){
                            if(!isNaN(parseInt($(this).val(),10)) ){
             
                            prod.val=parseInt($(this).val(),10);
-                           
+                           localStorage.setItem('allItems', JSON.stringify(ProdList));
                            TOTALSUM=0;
                            for(var i =0; i<ProdList.length;i++)
                            TOTALSUM+=ProdList[i].val;
@@ -54,7 +54,6 @@ function showFilter(list) {
                           
                      });
                     }
- 
                     ProdList.forEach(showListItem);
               }
               function removeFromList(item) {
@@ -64,6 +63,7 @@ function showFilter(list) {
                 $toRemv.find(".prod").removeClass('disp');
                 $toRemv.find(".prod-text").removeClass('disp'); 
                 ProdList.splice(ProdList.indexOf(item), 1);
+                localStorage.setItem('allItems', JSON.stringify(ProdList));
                 updateList();
     
             }
@@ -77,6 +77,7 @@ function showFilter(list) {
                         val:0,
                         desc:"Description"
                    });
+                   localStorage.setItem('allItems', JSON.stringify(ProdList));
                    updateList();
                   }
                 }
@@ -92,6 +93,7 @@ function showFilter(list) {
                     ProdList.length = 0;
                     TOTALSUM = 0;
                     $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+                    localStorage.setItem('allItems', JSON.stringify(ProdList));
                     updateList();
                 }
  
@@ -103,7 +105,7 @@ function showFilter(list) {
                     $node.find(".prod-text").removeClass('disp'); 
                     updateList();
                 });
-       
+                updateList();
             }
         
         }
@@ -123,7 +125,25 @@ function showFilter(list) {
        
   
     }
-    list.forEach(showOneFilter); 
+    if (localStorage.getItem('allItems')) {
+      ProdList = JSON.parse(localStorage.getItem('allItems'));
+      console.log(ProdList);
+      //   TOTALSUM=0;
+      //   for(var i =0; i<ProdList.length;i++)
+      //   TOTALSUM+=ProdList[i].val;
+      // $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+     } else {
+       localStorage.setItem('allItems', JSON.stringify(ProdList));
+     }
+     console.log(ProdList);
+    //list.forEach(showOneFilter); 
+    var sorted2 = list.slice(0);
+    sorted2.sort(function(a,b){
+        var x = a.title.toLowerCase();
+        var y = b.title.toLowerCase();
+        return x < y ? -1 : x > y ? 1 : 0;
+    });
+    sorted2.forEach(showOneFilter);
 }
 showFilter(Filter);
 
@@ -222,12 +242,13 @@ $(".name span").html(name);
                         $node1.find(".descInputs").val(prod.desc);
                         $node1.find(".descInputs").focusout(function(){
                           prod.desc = $(this).val();
+                          localStorage.setItem('allItems', JSON.stringify(ProdList));
                         });
                       $node1.find(".priceInputs").focusout(function(){
                         if(!isNaN(parseInt($(this).val(),10)) ){
             
                           prod.val = parseInt($(this).val(),10);
-                          
+                          localStorage.setItem('allItems', JSON.stringify(ProdList));
                           TOTALSUM=0;
                           for(var i =0; i<ProdList.length;i++)
                           TOTALSUM+=ProdList[i].val;
@@ -247,6 +268,8 @@ $(".name span").html(name);
               $toRemv.find(".prod").removeClass('disp');
               $toRemv.find(".prod-text").removeClass('disp'); 
               ProdList.splice(ProdList.indexOf(item), 1);
+              localStorage.setItem('allItems', JSON.stringify(ProdList));
+            
               updateList();
               
               }
@@ -265,6 +288,7 @@ $(".name span").html(name);
                           val:0,
                           desc:"Description"
                          });
+                         localStorage.setItem('allItems', JSON.stringify(ProdList));
                     var $filter = $("#filter");
                     var $node = $filter.find(".card:contains("+productlist[i].title+")");
                     
@@ -280,6 +304,7 @@ $(".name span").html(name);
                           val:0,
                           desc:"Description"
                          });
+                         localStorage.setItem('allItems', JSON.stringify(ProdList));
                          var $filter = $("#filter");
                 var $node = $filter.find(".card:contains("+productlist[i].title+")");
                 console.log($node);
@@ -382,12 +407,13 @@ function updateList(){
       $node1.find(".descInputs").val(prod.desc);
       $node1.find(".descInputs").focusout(function(){
         prod.desc = $(this).val();
+        localStorage.setItem('allItems', JSON.stringify(ProdList));
       });
       $node1.find(".priceInputs").focusout(function(){
          if(!isNaN(parseInt($(this).val(),10)) ){
 
          prod.val=parseInt($(this).val(),10);
-         
+         localStorage.setItem('allItems', JSON.stringify(ProdList));
          TOTALSUM=0;
          for(var i =0; i<ProdList.length;i++)
          TOTALSUM+=ProdList[i].val;
@@ -408,6 +434,7 @@ function addToMyList(product) {
         val:0,
         desc:"Description"
    });
+   localStorage.setItem('allItems', JSON.stringify(ProdList));
    updateList();
   }
 }
@@ -444,9 +471,13 @@ if (localStorage.getItem('newProdList')) {
 }
 
 newProducts.forEach(showProdsInLocal);
-
-localStorage.setItem('suggest', JSON.stringify(suggestion));
-
+if (localStorage.getItem('suggest')) {
+  suggestion = JSON.parse(localStorage.getItem('suggest'));
+  autocomplete(document.getElementById("myInput"), suggestion);
+} else {
+ localStorage.setItem('suggest', JSON.stringify(suggestion));
+ autocomplete(document.getElementById("myInput"), suggestion);
+}
 
 $('#create').click(function(){
 
@@ -492,7 +523,7 @@ ProdList.push({
   val:0,
   desc:"Description"
  });
-
+ localStorage.setItem('allItems', JSON.stringify(ProdList));
       var $node = $filter.find(".card:contains("+$("#myInput").val()+")");
       $node.find(".prod").addClass('disp');
       $node.find(".prod-text").addClass('disp');
@@ -512,4 +543,5 @@ ProdList.push({
 updateList();
 
 }
+$("#myInput").val('');
 });

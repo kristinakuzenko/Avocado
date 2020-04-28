@@ -2,6 +2,11 @@
 <html lang="en">
 
 <head>
+    <style>
+        body {
+            background-image: url("assets/images/paper.jpg");
+        }
+    </style>
     <title>Avocado</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet/less" type="text/css" href="assets/less/list.less" />
@@ -52,6 +57,7 @@
                             </div>
                             <div class="mashoplist">
                                 My Shopping List
+                                <div id="clear" style="float: right;" class="btn btn-primary">Delete all</div>
                             </div>
 
                             <div class="container" id="listik">
@@ -64,14 +70,14 @@
 
                                 </div>
                               <ul id="prodnote">
+                               
                               </ul>
                               <div class="row" id="total_sum">
-
                                 <figure>
                                     <img src="assets/images/cloudpink.png" alt="sticky">
                                     <figcaption>Total : 0$</figcaption> 
                                     </figure>
-                                    <span id="clear" class="btn ">Delete all</span>
+                                    
                             </div>
                             </div>
                         </div>
@@ -89,7 +95,6 @@
                    
 <div class="popup">
     <div class="popup-content">
-        <img src="assets/images/close.svg" alt="Close" id="closePopUp">
         <img style="height: 50px; width:50px" src="assets/images/bread.svg" alt ="">
         <input class="newPrName" type = "text" placeholder="Product Name">
         <input id="submProd" type="submit">

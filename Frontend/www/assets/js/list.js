@@ -282,7 +282,7 @@ var ejs = require('ejs');
 
 exports.BuyList_OneItem = ejs.compile("<div class=\"bi-wrapper card\">\r\n    <div id=\"in-list\" class=\" card-body disp item\">\r\n    </div>\r\n    <div id=\"in-list-pr\" class=\"bg-text prod-text item\">\r\n        <span class=\"card-text\" ><%= product.title %></span> \r\n    </div>\r\n        <div id=\"pr\" style=\"background-image: url('<%= product.icon %>') ;\" class=\"prod bg-image card-body\">\r\n        </div>\r\n        <div id=\"pr\" class=\"bg-text prod-text\">\r\n            <span class=\"card-text\" ><%= product.title %></span> \r\n        </div>\r\n        <input type=\"hidden\" class=\"details\" value=\"Add details\" style=\"width: 7rem;\">\r\n\r\n    </div>\r\n");
 exports.BuyList_OneCategory = ejs.compile("<div class=\"item\">\r\n  <div  class=\"title mashoplist\"> <%= filter.title %></div>\r\n  <div id=\"desc\" class=\"description\"> </div>\r\n</div>");
-exports.Note_Item = ejs.compile("<li class=\"d-flex flex-row justify-content-between\">\r\n    <div class=\"p-2\"><%= product.title %></div>\r\n     \r\n    <div class=\"question\">\r\n        <input type=\"text\" placeholder=\"Description\"/>\r\n       \r\n      </div>\r\n    <div id=\"prodPrice\">\r\n        <input type=\"text\" placeholder=\"Price\"/>$\r\n    </div>\r\n    <span class=\"close\">x</span>\r\n</li>");
+exports.Note_Item = ejs.compile("<li class=\"d-flex flex-row justify-content-between\">\r\n    <div class=\"p-2\"><%= product.title %></div>\r\n     \r\n    <div class=\"question\">\r\n        <input type=\"text\" placeholder=\"Description\" class=\"descInputs\"/>\r\n       \r\n      </div>\r\n    <div id=\"prodPrice\">\r\n        <input type=\"text\" placeholder=\"Price\" class=\"priceInputs\"/>$\r\n    </div>\r\n    <span class=\"close\">x</span>\r\n</li>");
 exports.Suggestion = ejs.compile("<div class=\"col-md-4 mb-5\" >\n    <div class=\"card \">\n        <div class=\"card-body\">\n            <h2 class=\"card-title\"><%= suggestion.title %></h2>\n            <div id=\"item-place\" class=\"none\">\n            </div>\n                <img class=\"card-img-top\" src='<%= suggestion.icon %>' alt=\"Card image cap\">\n            <p class=\"card-text\"></p>\n        </div>\n        <div class=\"card-footer\">\n            <div class=\"d-flex justify-content-around\">\n                <a id=\"items\" class=\"btn btn-primary\">\n                    <svg class=\"bi bi-plus-square-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" d=\"M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z\" clip-rule=\"evenodd\"/>\n      </svg> Show items</a>\n      <a id=\"items-hide\" class=\"btn btn-primary none\">\n        <svg class=\"bi bi-plus-square-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" d=\"M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z\" clip-rule=\"evenodd\"/>\n</svg> Hide items</a>\n            </div>\n        </div>\n    </div>\n</div>");
 exports.SuggestionItem = ejs.compile("<div class=\"itemtitle\">\n    &#10003;  <%= suggestionitem.title %>\n</div>");
 exports.Local_Item = ejs.compile("<div class=\"bi-wrapper card\">\r\n    <div id=\"in-list\" class=\" card-body disp item\">\r\n    </div>\r\n    <div id=\"in-list-pr\" class=\"bg-text prod-text item\">\r\n        <span class=\"card-text\" ><%= item.title %></span> \r\n    </div>\r\n        <div id=\"pr\" style=\"background-image: url('<%= item.icon %>') ;\" class=\"prod bg-image card-body\">\r\n        </div>\r\n        <div id=\"pr\" class=\"bg-text prod-text\">\r\n            <span class=\"card-text\" ><%= item.title %></span> \r\n        </div>\r\n        <input type=\"hidden\" class=\"details\" value=\"Add details\" style=\"width: 7rem;\">\r\n\r\n    </div>");
@@ -373,7 +373,6 @@ var ProdList = [];
 var suggestion=[];
 var TOTALSUM = 0;
 var noteItem_height = 67;
-//var ProductListJson = require('Avocado-master/Backend/data/Product_List')
 
 function showFilter(list) {
     $filter.html("");
@@ -392,7 +391,7 @@ function showFilter(list) {
                 $product_list.append($node);
                 suggestion.push(product.title);
 
-              function updateList(){
+              function updateList(){     
                     $note.html("");
 
                     function showListItem(prod) {
@@ -406,12 +405,13 @@ function showFilter(list) {
                         $node1.find(".descInputs").val(prod.desc);
                         $node1.find(".descInputs").focusout(function(){
                           prod.desc = $(this).val();
+                          localStorage.setItem('allItems', JSON.stringify(ProdList));
                         });
                         $node1.find(".priceInputs").focusout(function(){
                            if(!isNaN(parseInt($(this).val(),10)) ){
             
                            prod.val=parseInt($(this).val(),10);
-                           
+                           localStorage.setItem('allItems', JSON.stringify(ProdList));
                            TOTALSUM=0;
                            for(var i =0; i<ProdList.length;i++)
                            TOTALSUM+=ProdList[i].val;
@@ -420,7 +420,6 @@ function showFilter(list) {
                           
                      });
                     }
- 
                     ProdList.forEach(showListItem);
               }
               function removeFromList(item) {
@@ -430,6 +429,7 @@ function showFilter(list) {
                 $toRemv.find(".prod").removeClass('disp');
                 $toRemv.find(".prod-text").removeClass('disp'); 
                 ProdList.splice(ProdList.indexOf(item), 1);
+                localStorage.setItem('allItems', JSON.stringify(ProdList));
                 updateList();
     
             }
@@ -443,6 +443,7 @@ function showFilter(list) {
                         val:0,
                         desc:"Description"
                    });
+                   localStorage.setItem('allItems', JSON.stringify(ProdList));
                    updateList();
                   }
                 }
@@ -458,6 +459,7 @@ function showFilter(list) {
                     ProdList.length = 0;
                     TOTALSUM = 0;
                     $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+                    localStorage.setItem('allItems', JSON.stringify(ProdList));
                     updateList();
                 }
  
@@ -469,7 +471,7 @@ function showFilter(list) {
                     $node.find(".prod-text").removeClass('disp'); 
                     updateList();
                 });
-       
+                updateList();
             }
         
         }
@@ -489,7 +491,25 @@ function showFilter(list) {
        
   
     }
-    list.forEach(showOneFilter); 
+    if (localStorage.getItem('allItems')) {
+      ProdList = JSON.parse(localStorage.getItem('allItems'));
+      console.log(ProdList);
+      //   TOTALSUM=0;
+      //   for(var i =0; i<ProdList.length;i++)
+      //   TOTALSUM+=ProdList[i].val;
+      // $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+     } else {
+       localStorage.setItem('allItems', JSON.stringify(ProdList));
+     }
+     console.log(ProdList);
+    //list.forEach(showOneFilter); 
+    var sorted2 = list.slice(0);
+    sorted2.sort(function(a,b){
+        var x = a.title.toLowerCase();
+        var y = b.title.toLowerCase();
+        return x < y ? -1 : x > y ? 1 : 0;
+    });
+    sorted2.forEach(showOneFilter);
 }
 showFilter(Filter);
 
@@ -588,12 +608,13 @@ $(".name span").html(name);
                         $node1.find(".descInputs").val(prod.desc);
                         $node1.find(".descInputs").focusout(function(){
                           prod.desc = $(this).val();
+                          localStorage.setItem('allItems', JSON.stringify(ProdList));
                         });
                       $node1.find(".priceInputs").focusout(function(){
                         if(!isNaN(parseInt($(this).val(),10)) ){
             
                           prod.val = parseInt($(this).val(),10);
-                          
+                          localStorage.setItem('allItems', JSON.stringify(ProdList));
                           TOTALSUM=0;
                           for(var i =0; i<ProdList.length;i++)
                           TOTALSUM+=ProdList[i].val;
@@ -613,6 +634,8 @@ $(".name span").html(name);
               $toRemv.find(".prod").removeClass('disp');
               $toRemv.find(".prod-text").removeClass('disp'); 
               ProdList.splice(ProdList.indexOf(item), 1);
+              localStorage.setItem('allItems', JSON.stringify(ProdList));
+            
               updateList();
               
               }
@@ -631,6 +654,7 @@ $(".name span").html(name);
                           val:0,
                           desc:"Description"
                          });
+                         localStorage.setItem('allItems', JSON.stringify(ProdList));
                     var $filter = $("#filter");
                     var $node = $filter.find(".card:contains("+productlist[i].title+")");
                     
@@ -646,6 +670,7 @@ $(".name span").html(name);
                           val:0,
                           desc:"Description"
                          });
+                         localStorage.setItem('allItems', JSON.stringify(ProdList));
                          var $filter = $("#filter");
                 var $node = $filter.find(".card:contains("+productlist[i].title+")");
                 console.log($node);
@@ -729,8 +754,8 @@ $(".name span").html(name);
   autocomplete(document.getElementById("myInput"), suggestion);
   /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 
-localStorage.clear();
-console.log("Cleared");
+//localStorage.clear();
+//console.log("Cleared");
 var newProducts = [];
 var cat = "Other";
 var $note = $("#prodnote");
@@ -748,12 +773,13 @@ function updateList(){
       $node1.find(".descInputs").val(prod.desc);
       $node1.find(".descInputs").focusout(function(){
         prod.desc = $(this).val();
+        localStorage.setItem('allItems', JSON.stringify(ProdList));
       });
       $node1.find(".priceInputs").focusout(function(){
          if(!isNaN(parseInt($(this).val(),10)) ){
 
          prod.val=parseInt($(this).val(),10);
-         
+         localStorage.setItem('allItems', JSON.stringify(ProdList));
          TOTALSUM=0;
          for(var i =0; i<ProdList.length;i++)
          TOTALSUM+=ProdList[i].val;
@@ -774,6 +800,7 @@ function addToMyList(product) {
         val:0,
         desc:"Description"
    });
+   localStorage.setItem('allItems', JSON.stringify(ProdList));
    updateList();
   }
 }
@@ -810,9 +837,13 @@ if (localStorage.getItem('newProdList')) {
 }
 
 newProducts.forEach(showProdsInLocal);
-
-localStorage.setItem('suggest', JSON.stringify(suggestion));
-
+if (localStorage.getItem('suggest')) {
+  suggestion = JSON.parse(localStorage.getItem('suggest'));
+  autocomplete(document.getElementById("myInput"), suggestion);
+} else {
+ localStorage.setItem('suggest', JSON.stringify(suggestion));
+ autocomplete(document.getElementById("myInput"), suggestion);
+}
 
 $('#create').click(function(){
 
@@ -858,7 +889,7 @@ ProdList.push({
   val:0,
   desc:"Description"
  });
-
+ localStorage.setItem('allItems', JSON.stringify(ProdList));
       var $node = $filter.find(".card:contains("+$("#myInput").val()+")");
       $node.find(".prod").addClass('disp');
       $node.find(".prod-text").addClass('disp');
@@ -878,6 +909,7 @@ ProdList.push({
 updateList();
 
 }
+$("#myInput").val('');
 });
 },{"./API":1,"./Filter":2,"./Templates":5,"./details":6}],8:[function(require,module,exports){
 
