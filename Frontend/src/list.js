@@ -1,47 +1,97 @@
 var Templates = require('./Templates');
+var details = require('./details');
 var api = require('./API');
 var $filter = $("#filter");
 var Filter = require('./Filter');
 var ProdList = [];
 var suggestion=[];
+var TOTALSUM = 0;
 var noteItem_height = 67;
+//var ProductListJson = require('Avocado-master/Backend/data/Product_List')
+
 function showFilter(list) {
     $filter.html("");
     function showOneFilter(pf1) {
         var html_code = Templates.BuyList_OneCategory({ filter: pf1 });
-        var $node = $(html_code);
-        $filter.append($node);
-        var $product_list=$node.find('.description');
+        var $nd = $(html_code);
+        $filter.append($nd);
+        var $product_list=$nd.find('.description');
+
         function showOneProduct(product) {
             var html_code = Templates.BuyList_OneItem({ product: product });
             var $node = $(html_code);
+            var $note = $("#prodnote");
+
             if(product.id==pf1.id){
                 $product_list.append($node);
                 suggestion.push(product.title);
-                function updateList() {
-                    //window.localStorage.setItem('cartArray', JSON.stringify(ProdList));
-                    var $note = $("#prodnote");
+
+              function updateList(){
                     $note.html("");
-                    function showOneProd(prod) {
+
+                    function showListItem(prod) {
                         var html_code = Templates.Note_Item(prod);
                         var $node1 = $(html_code);
                         $note.append($node1);
                         $node1.find(".close").click(function(){
                             removeFromList(prod);
                         });
+                        $node1.find(".priceInputs").val(prod.val);
+                        $node1.find(".descInputs").val(prod.desc);
+                        $node1.find(".descInputs").focusout(function(){
+                          prod.desc = $(this).val();
+                        });
+                        $node1.find(".priceInputs").focusout(function(){
+                           if(!isNaN(parseInt($(this).val(),10)) ){
+            
+                           prod.val=parseInt($(this).val(),10);
+                           
+                           TOTALSUM=0;
+                           for(var i =0; i<ProdList.length;i++)
+                           TOTALSUM+=ProdList[i].val;
+                           $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+                           }
+                          
+                     });
                     }
  
-                    ProdList.forEach(showOneProd);
-                
-                }
+                    ProdList.forEach(showListItem);
+              }
+              function removeFromList(item) {
+                var $toRemv = $filter.find(".card:contains("+item.product.title+")");
+                $toRemv.find("#in-list").addClass('disp');
+                $toRemv.find("#in-list-pr").addClass('disp');
+                $toRemv.find(".prod").removeClass('disp');
+                $toRemv.find(".prod-text").removeClass('disp'); 
+                ProdList.splice(ProdList.indexOf(item), 1);
+                updateList();
+    
+            }
+
                 function addToMyList(product) {
+                  idx = ProdList.findIndex(item=>item.product.title == product.title);
+            
+                  if(idx<0){
                     ProdList.push({
-                        product:product
+                        product:product,
+                        val:0,
+                        desc:"Description"
                    });
                    updateList();
+                  }
                 }
-                function clearList() {
+                
+                $node.find("#pr").click(function(){
+                    addToMyList(product);
+                    $node.find(".prod").addClass('disp');
+                    $node.find(".prod-text").addClass('disp');
+                    $node.find("#in-list").removeClass('disp');
+                    $node.find("#in-list-pr").removeClass('disp')
+                });
+               function clearList() {
                     ProdList.length = 0;
+                    TOTALSUM = 0;
+                    $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
                     updateList();
                 }
  
@@ -53,25 +103,7 @@ function showFilter(list) {
                     $node.find(".prod-text").removeClass('disp'); 
                     updateList();
                 });
-                function removeFromList(item){
-                    ProdList.splice(ProdList.indexOf(item), 1);
-                    $node.find("#in-list").addClass('disp');
-                    $node.find("#in-list-pr").addClass('disp');
-                    $node.find(".prod").removeClass('disp');
-                    $node.find(".prod-text").removeClass('disp'); 
-                    updateList();
-                }
-                $node.find("#pr").click(function(){
-                    addToMyList(product);
-                    $node.find(".prod").addClass('disp');
-                    $node.find(".prod-text").addClass('disp');
-                    $node.find("#in-list").removeClass('disp');
-                    $node.find("#in-list-pr").removeClass('disp')
-                });
-                $node.find(".item").click(function(){
-                    removeFromList(product);
-
-                });
+       
             }
         
         }
@@ -87,15 +119,23 @@ function showFilter(list) {
             });
             sorted.forEach(showOneProduct);
         });
-    
 
-        //my list
        
-
+  
     }
     list.forEach(showOneFilter); 
 }
 showFilter(Filter);
+
+const selected = document.querySelectorAll(".mashoplist");
+const optionsContainer = document.querySelectorAll(".description");
+
+selected.forEach(o => {
+    o.addEventListener("click", () => {
+      o.classList.toggle("changed");
+      o.parentElement.querySelector("#desc").classList.toggle("active");
+});
+});
 
 $('#mi').keypress(function(e) {
     if (e.which == 13 && this.value) {
@@ -109,29 +149,18 @@ $("#submit").click(function() {
 });
 
 // Add a "checked" symbol when clicking on a list item
-/*var list = document.querySelector('#listik ul');
+var list = document.querySelector('#listik ul');
 list.addEventListener('click', function(ev) {
   if (ev.target.tagName === 'LI') {
     ev.target.classList.toggle('checked');
   }
-}, false);*/
+}, false);
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const name = urlParams.get('name');
 $(".name span").html(name);
 
-   // var contentHeight = (windowHeight - 25);
-
-  //  contentElement.style.minHeight = contentHeight + "px";
-
-  
-   // if(currentContentHeight>2)
-  //  var navigationElement = document.getElementById("navigation");
- //   var differenceInHeight = currentContentHeight - windowHeight;
-  //  var navigationHeight = (windowHeight + differenceInHeight);
-
- //   navigationElement.style.minHeight = navigationHeight + "px";
 
  $('.title').click(function(){
     var $parent = $(this).parents('.item');
@@ -144,10 +173,6 @@ $(".name span").html(name);
       }
     
   });
-
-
-
-
   
   function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
@@ -178,11 +203,98 @@ $(".name span").html(name);
             /*insert a input field that will hold the current array item's value:*/
             b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
             /*execute a function when someone clicks on the item value (DIV element):*/
+            
             b.addEventListener("click", function(e) {
-                /*insert the value for the autocomplete text field:*/
                 inp.value = this.getElementsByTagName("input")[0].value;
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
+              
+                var $note = $("#prodnote");
+                function updateList(){
+                  $note.html("");
+              
+                  function showListItem(prod) {
+                      var html_code = Templates.Note_Item(prod);
+                      var $node1 = $(html_code);
+                      $note.append($node1);
+                      $node1.find(".close").click(function(){
+                          removeFromList(prod);
+                      });
+                      $node1.find(".priceInputs").val(prod.val);
+                        $node1.find(".descInputs").val(prod.desc);
+                        $node1.find(".descInputs").focusout(function(){
+                          prod.desc = $(this).val();
+                        });
+                      $node1.find(".priceInputs").focusout(function(){
+                        if(!isNaN(parseInt($(this).val(),10)) ){
+            
+                          prod.val = parseInt($(this).val(),10);
+                          
+                          TOTALSUM=0;
+                          for(var i =0; i<ProdList.length;i++)
+                          TOTALSUM+=ProdList[i].val;
+                          $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+                          }
+                      
+                   });
+                  }
+              
+                  ProdList.forEach(showListItem);
+              }
+              function removeFromList(item) {
+              var $filter = $("#filter");
+              var $toRemv = $filter.find(".card:contains("+item.product.title+")");
+              $toRemv.find("#in-list").addClass('disp');
+              $toRemv.find("#in-list-pr").addClass('disp');
+              $toRemv.find(".prod").removeClass('disp');
+              $toRemv.find(".prod-text").removeClass('disp'); 
+              ProdList.splice(ProdList.indexOf(item), 1);
+              updateList();
+              
+              }
+             
+                api.getProductList(function(err, productlist) {
+                  if (err) {}
+                  for(var i=0; i<productlist.length; i++){
+                      var name = productlist[i].title;
+                      if(name == $("#myInput").val()){
+                       
+                        if(ProdList.length!=0){
+                        idx = ProdList.findIndex(item=>item.product.title==$("#myInput").val());
+                        if(idx<0){
+                          ProdList.push({
+                          product:productlist[i],
+                          val:0,
+                          desc:"Description"
+                         });
+                    var $filter = $("#filter");
+                    var $node = $filter.find(".card:contains("+productlist[i].title+")");
+                    
+                    $node.find(".prod").addClass('disp');
+                    $node.find(".prod-text").addClass('disp');
+                    $node.find("#in-list").removeClass('disp');
+                    $node.find("#in-list-pr").removeClass('disp')
+                        updateList();
+                        }
+                      } else{
+                        ProdList.push({
+                          product:productlist[i],
+                          val:0,
+                          desc:"Description"
+                         });
+                         var $filter = $("#filter");
+                var $node = $filter.find(".card:contains("+productlist[i].title+")");
+                console.log($node);
+                    $node.find(".prod").addClass('disp');
+                    $node.find(".prod-text").addClass('disp');
+                    $node.find("#in-list").removeClass('disp');
+                    $node.find("#in-list-pr").removeClass('disp')
+                         updateList();
+                      }
+                        break;
+                      }
+                    }
+              });
+              
+              
                 closeAllLists();
             });
             a.appendChild(b);
@@ -251,4 +363,153 @@ $(".name span").html(name);
   autocomplete(document.getElementById("myInput"), suggestion);
   /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
 
+//localStorage.clear();
+//console.log("Cleared");
+var newProducts = [];
+var cat = "Other";
+var $note = $("#prodnote");
+function updateList(){
+  $note.html("");
 
+  function showListItem(prod) {
+      var html_code = Templates.Note_Item(prod);
+      var $node1 = $(html_code);
+      $note.append($node1);
+      $node1.find(".close").click(function(){
+          removeFromList(prod);
+      });
+      $node1.find(".priceInputs").val(prod.val);
+      $node1.find(".descInputs").val(prod.desc);
+      $node1.find(".descInputs").focusout(function(){
+        prod.desc = $(this).val();
+      });
+      $node1.find(".priceInputs").focusout(function(){
+         if(!isNaN(parseInt($(this).val(),10)) ){
+
+         prod.val=parseInt($(this).val(),10);
+         
+         TOTALSUM=0;
+         for(var i =0; i<ProdList.length;i++)
+         TOTALSUM+=ProdList[i].val;
+         $("#total_sum figcaption").text("Total:"+TOTALSUM+"$");
+         }
+        
+   });
+  }
+
+  ProdList.forEach(showListItem);
+}
+function addToMyList(product) {
+  idx = ProdList.findIndex(item=>item.product.title == product.title);
+
+  if(idx<0){
+    ProdList.push({
+        product:product,
+        val:0,
+        desc:"Description"
+   });
+   updateList();
+  }
+}
+function removeFromList(item) {
+  var $toRemv = $filter.find(".card:contains("+item.product.title+")");
+  $toRemv.find("#in-list").addClass('disp');
+  $toRemv.find("#in-list-pr").addClass('disp');
+  $toRemv.find(".prod").removeClass('disp');
+  $toRemv.find(".prod-text").removeClass('disp'); 
+  ProdList.splice(ProdList.indexOf(item), 1);
+  updateList();
+  
+  }
+
+function showProdsInLocal(item) {
+  var html_code = Templates.Local_Item({ item: item });
+  var $node = $(html_code);
+  $filter.find(".item:contains("+cat+")").find(".description").append($node);
+  $node.find("#pr").click(function(){
+    addToMyList(item);
+    $node.find(".prod").addClass('disp');
+    $node.find(".prod-text").addClass('disp');
+    $node.find("#in-list").removeClass('disp');
+    $node.find("#in-list-pr").removeClass('disp')
+});
+}
+
+if (localStorage.getItem('newProdList')) {
+  newProdList = JSON.parse(localStorage.getItem('newProdList'));
+  newProducts = newProdList;
+} else {
+ newProdList = [];
+ localStorage.setItem('newProdList', JSON.stringify(newProducts));
+}
+
+newProducts.forEach(showProdsInLocal);
+
+localStorage.setItem('suggest', JSON.stringify(suggestion));
+
+
+$('#create').click(function(){
+
+ console.log($("#myInput").val());
+
+
+var inSug = false;
+suggestions=JSON.parse(localStorage.getItem('suggest'));
+for(var i = 0; i<suggestion.length;i++){
+  if(suggestion[i]==$("#myInput").val()){
+  inSug = true;
+  break;
+  }
+}
+if(!inSug){
+suggestion.push($("#myInput").val());
+localStorage.setItem('suggest', JSON.stringify(suggestion));
+autocomplete(document.getElementById("myInput"), suggestion);
+
+newProducts.push({
+  icon: 'assets/images/wall.jpg',
+  title: $("#myInput").val()
+});
+
+localStorage.setItem('newProdList', JSON.stringify(newProducts));
+console.log(newProducts);
+$filter.find(".item:contains("+cat+")").find(".description").html("");
+newProducts.forEach(showProdsInLocal);
+
+///////////////////////////////////
+
+
+
+var item = {
+  id: 1,
+  icon: 'assets/images/wall.jpg',
+  title: $("#myInput").val()
+}
+
+//////////////////////////////////
+ProdList.push({
+  product:item,
+  val:0,
+  desc:"Description"
+ });
+
+      var $node = $filter.find(".card:contains("+$("#myInput").val()+")");
+      $node.find(".prod").addClass('disp');
+      $node.find(".prod-text").addClass('disp');
+      $node.find("#in-list").removeClass('disp');
+      $node.find("#in-list-pr").removeClass('disp')
+/////////////
+
+////////////
+      $node.find("#pr").click(function(){
+        addToMyList(item);
+        $node.find(".prod").addClass('disp');
+        $node.find(".prod-text").addClass('disp');
+        $node.find("#in-list").removeClass('disp');
+        $node.find("#in-list-pr").removeClass('disp')
+    });
+
+updateList();
+
+}
+});

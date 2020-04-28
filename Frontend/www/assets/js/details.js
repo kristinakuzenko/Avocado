@@ -6,8 +6,8 @@ var suggestion = [
     reason:1
     },
     {
-        title:"Cocktail party",
-        icon: 'assets/images/suggestions/cocktail.jpg',
+        title:"Aperol time",
+        icon: 'assets/images/suggestions/aperol.jpg',
         reason:7
     },
     {
@@ -26,7 +26,7 @@ var suggestion = [
         reason:5
     },
     {
-        title:"Night",
+        title:"Lavender moonlight drink",
         icon: 'assets/images/suggestions/night.jpg',
         reason:6
     },
@@ -34,6 +34,138 @@ var suggestion = [
     ];
     module.exports = suggestion;
 },{}],2:[function(require,module,exports){
+var suggestionitem = [
+{
+    id:1,
+    title:'Meat for grill'
+},
+{
+    id:1,
+    title:'Mushrooms'
+},
+{
+    id:1,
+    title:'Your favorite vegetables'
+},
+{
+    id:1,
+    title:'Something to drink'
+},
+{
+    id:1,
+    title:'Sauce'
+},
+{
+    id:1,
+    title:'The best company'
+},
+{
+    id:7,
+    title:'Aperol'
+},
+{
+    id:7,
+    title:'Prosecco'
+},
+{
+    id:7,
+    title:'Club soda'
+},
+{
+    id:7,
+    title:'Orange'
+},
+{
+    id:7,
+    title:'Ice'
+},
+{
+    id:2,
+    title:'The most favorite tea'
+} ,
+{
+    id:2,
+    title:'Lemon'
+},
+{
+    id:2,
+    title:'Mint'
+},
+{
+    id:2,
+    title:'Super delicious cake'
+},
+{
+    id:2,
+    title:'Honey'
+} ,
+{
+    id:4,
+    title:'Popcorn'
+} ,
+{
+    id:4,
+    title:'Nuts'
+} ,
+{
+    id:4,
+    title:'Candies'
+}   ,
+{
+    id:4,
+    title:'Something to drink'
+}  ,
+{
+    id:5,
+    title:'Crasty French Baguette'
+}   ,
+{
+    id:5,
+    title:'Cheese'
+}     ,
+{
+    id:5,
+    title:'Ham'
+}     ,
+{
+    id:5,
+    title:'Fresh vegetables'
+}     ,
+{
+    id:5,
+    title:'Delicious fruit'
+}    ,
+{
+    id:5,
+    title:'Favorite drink'
+}     ,
+{
+    id:5,
+    title:'Croissant or other delicious dessert'
+}  ,
+{
+    id:6,
+    title:'Boiling water'
+}  ,
+{
+    id:6,
+    title:'Almond milk'
+}  ,
+{
+    id:6,
+    title:'Lavender buds'
+}  ,
+{
+    id:6,
+    title:'Honey'
+}  ,
+{
+    id:6,
+    title:'Earl grey tea'
+}            
+];
+    module.exports = suggestionitem;
+},{}],3:[function(require,module,exports){
 
 var ejs = require('ejs');
 
@@ -41,10 +173,13 @@ var ejs = require('ejs');
 exports.BuyList_OneItem = ejs.compile("<div class=\"bi-wrapper card\">\r\n    <div id=\"in-list\" class=\" card-body disp item\">\r\n    </div>\r\n    <div id=\"in-list-pr\" class=\"bg-text prod-text item\">\r\n        <span class=\"card-text\" ><%= product.title %></span> \r\n    </div>\r\n        <div id=\"pr\" style=\"background-image: url('<%= product.icon %>') ;\" class=\"prod bg-image card-body\">\r\n        </div>\r\n        <div id=\"pr\" class=\"bg-text prod-text\">\r\n            <span class=\"card-text\" ><%= product.title %></span> \r\n        </div>\r\n        <input type=\"hidden\" class=\"details\" value=\"Add details\" style=\"width: 7rem;\">\r\n\r\n    </div>\r\n");
 exports.BuyList_OneCategory = ejs.compile("<div class=\"item\">\r\n  <div  class=\"title mashoplist\"> <%= filter.title %></div>\r\n  <div id=\"desc\" class=\"description\"> </div>\r\n</div>");
 exports.Note_Item = ejs.compile("<li class=\"d-flex flex-row justify-content-between\">\r\n    <div class=\"p-2\"><%= product.title %></div>\r\n     \r\n    <div class=\"question\">\r\n        <input type=\"text\" placeholder=\"Description\"/>\r\n       \r\n      </div>\r\n    <div id=\"prodPrice\">\r\n        <input type=\"text\" placeholder=\"Price\"/>$\r\n    </div>\r\n    <span class=\"close\">x</span>\r\n</li>");
-exports.Suggestion = ejs.compile("<div class=\"col-md-4 mb-5\" >\n    <div class=\"card \">\n        <div class=\"card-body\">\n            <h2 class=\"card-title\"><%= suggestion.title %></h2>\n                <img class=\"card-img-top\" src='<%= suggestion.icon %>' alt=\"Card image cap\">\n            <p class=\"card-text\"></p>\n        </div>\n        <div class=\"card-footer\">\n            <div class=\"d-flex justify-content-around\">\n                <a href=\"#\" class=\"btn btn-primary\">\n                    <svg class=\"bi bi-reply-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path d=\"M9.079 11.9l4.568-3.281a.719.719 0 000-1.238L9.079 4.1A.716.716 0 008 4.719V6c-1.5 0-6 0-7 8 2.5-4.5 7-4 7-4v1.281c0 .56.606.898 1.079.62z\"/>\n      </svg> Share\n                </a>\n                <a href=\"#\" class=\"btn btn-primary\">\n                    <svg class=\"bi bi-plus-square-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" d=\"M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z\" clip-rule=\"evenodd\"/>\n      </svg> Add items to list</a>\n            </div>\n        </div>\n    </div>\n</div>");
-},{"ejs":5}],3:[function(require,module,exports){
+exports.Suggestion = ejs.compile("<div class=\"col-md-4 mb-5\" >\n    <div class=\"card \">\n        <div class=\"card-body\">\n            <h2 class=\"card-title\"><%= suggestion.title %></h2>\n            <div id=\"item-place\" class=\"none\">\n            </div>\n                <img class=\"card-img-top\" src='<%= suggestion.icon %>' alt=\"Card image cap\">\n            <p class=\"card-text\"></p>\n        </div>\n        <div class=\"card-footer\">\n            <div class=\"d-flex justify-content-around\">\n                <a id=\"items\" class=\"btn btn-primary\">\n                    <svg class=\"bi bi-plus-square-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill-rule=\"evenodd\" d=\"M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z\" clip-rule=\"evenodd\"/>\n      </svg> Show items</a>\n      <a id=\"items-hide\" class=\"btn btn-primary none\">\n        <svg class=\"bi bi-plus-square-fill\" width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n<path fill-rule=\"evenodd\" d=\"M2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2zm6.5 4a.5.5 0 00-1 0v3.5H4a.5.5 0 000 1h3.5V12a.5.5 0 001 0V8.5H12a.5.5 0 000-1H8.5V4z\" clip-rule=\"evenodd\"/>\n</svg> Hide items</a>\n            </div>\n        </div>\n    </div>\n</div>");
+exports.SuggestionItem = ejs.compile("<div class=\"itemtitle\">\n    &#10003;  <%= suggestionitem.title %>\n</div>");
+exports.Local_Item = ejs.compile("<div class=\"bi-wrapper card\">\r\n    <div id=\"in-list\" class=\" card-body disp item\">\r\n    </div>\r\n    <div id=\"in-list-pr\" class=\"bg-text prod-text item\">\r\n        <span class=\"card-text\" ><%= item.title %></span> \r\n    </div>\r\n        <div id=\"pr\" style=\"background-image: url('<%= item.icon %>') ;\" class=\"prod bg-image card-body\">\r\n        </div>\r\n        <div id=\"pr\" class=\"bg-text prod-text\">\r\n            <span class=\"card-text\" ><%= item.title %></span> \r\n        </div>\r\n        <input type=\"hidden\" class=\"details\" value=\"Add details\" style=\"width: 7rem;\">\r\n\r\n    </div>");
+},{"ejs":6}],4:[function(require,module,exports){
 var Templates = require('./Templates');
 var Suggestion = require('./Suggestion');
+var SuggestionItem = require('./SuggestionItem');
 var $suggestion = $("#suggestion");
 function showSug(list) {
     var temp=$('#sug').text();
@@ -54,6 +189,16 @@ function showSug(list) {
     function showOneSug(suggestion) {
         var html_code = Templates.Suggestion({ suggestion: suggestion });
         var $node = $(html_code);
+        var $item = $node.find("#item-place");
+        $item.html("");
+        function showOneItem(suggestionitem){
+            var html_code2 = Templates.SuggestionItem({ suggestionitem: suggestionitem });
+            var $node2 = $(html_code2);
+            if(suggestion.reason==suggestionitem.id){
+                $item.append($node2);
+            }
+        }
+        SuggestionItem.forEach(showOneItem);
         if(temp<15&& suggestion.reason==2){
             $suggestion.append($node);
         }
@@ -72,11 +217,29 @@ function showSug(list) {
         if((info=="partly-cloudy-day"||info=="cloudy")&& suggestion.reason==5){
             $suggestion.append($node);
         }
+        $node.find("#items").click(function() {
+            $node.find("#item-place").removeClass('none');
+            $node.find("#items-hide").removeClass('none');
+            $node.find("#items").addClass('none');
+        });
+        $node.find("#items-hide").click(function() {
+            $node.find("#item-place").addClass('none');
+            $node.find("#items-hide").addClass('none');
+            $node.find("#items").removeClass('none');
+        });
     }
     list.forEach(showOneSug);
 }
 $("#show-sug").click(function() {
     showSug(Suggestion);
+    $("#hide-sug").removeClass('none');
+    $("#show-sug").addClass('none');
+    $("#suggestion").removeClass('none');
+});
+$("#hide-sug").click(function() {
+    $("#suggestion").addClass('none');
+    $("#hide-sug").addClass('none');
+    $("#show-sug").removeClass('none');
 });
 $("#more").click(function() {
     $("#current-weather-details").removeClass('none');
@@ -89,9 +252,10 @@ $("#hide").click(function() {
     $("#more").removeClass('none');
 });
 
-},{"./Suggestion":1,"./Templates":2}],4:[function(require,module,exports){
 
-},{}],5:[function(require,module,exports){
+},{"./Suggestion":1,"./SuggestionItem":2,"./Templates":3}],5:[function(require,module,exports){
+
+},{}],6:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1073,7 +1237,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":7,"./utils":6,"fs":4,"path":8}],6:[function(require,module,exports){
+},{"../package.json":8,"./utils":7,"fs":5,"path":9}],7:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1242,7 +1406,7 @@ exports.cache = {
   }
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports={
   "_from": "ejs@^2.4.1",
   "_id": "ejs@2.7.4",
@@ -1312,7 +1476,7 @@ module.exports={
   "version": "2.7.4"
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -1618,7 +1782,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":9}],9:[function(require,module,exports){
+},{"_process":10}],10:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1804,4 +1968,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[3]);
+},{}]},{},[4]);

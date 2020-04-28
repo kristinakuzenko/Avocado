@@ -5,8 +5,8 @@ var suggestion = [
     reason:1
     },
     {
-        title:"Cocktail party",
-        icon: 'assets/images/suggestions/cocktail.jpg',
+        title:"Aperol time",
+        icon: 'assets/images/suggestions/aperol.jpg',
         reason:7
     },
     {
@@ -25,7 +25,7 @@ var suggestion = [
         reason:5
     },
     {
-        title:"Night",
+        title:"Lavender moonlight drink",
         icon: 'assets/images/suggestions/night.jpg',
         reason:6
     },

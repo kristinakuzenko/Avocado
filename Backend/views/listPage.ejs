@@ -17,6 +17,7 @@
 
 <body>
     <!-- Navigation -->
+   
     <% include common/header.ejs %>
     <div style="margin-top: 70px;">
         <div class="name">
@@ -29,12 +30,19 @@
         <div class="filter">
             <div class="panel">
                 <div class="container">
-                    <form autocomplete="off" action="/action_page.php">
-                        <div class="autocomplete for-input" >
-                          <input id="myInput" class="myinput form-control" type="text" name="myCountry" placeholder="What would you like to buy?">
+                    <div class="row" id="inpRow">
+                        <div class="col-sm-11">
+                        <form autocomplete="off" action="/action_page.php">
+                            <div class="autocomplete for-input align-self-start" >
+                              <input id="myInput" class="myinput form-control" type="text" name="myCountry" placeholder="What would you like to buy?">
+                            </div>
+                          </form>
                         </div>
-                      </form>
-
+                        <div class="col-sm-1" id="cr">
+                          <button type="button" class="btn btn-primary" id="create">Create!</button>
+                        </div>
+                    </div>
+                   
 <div class="row" id="mainRow">
                     <div class="col-sm-12 col-xl-6" id="colBuy">
                         <div class="mapurchlist">
@@ -61,7 +69,7 @@
 
                                 <figure>
                                     <img src="assets/images/cloudpink.png" alt="sticky">
-                                    <figcaption>Total : 250$</figcaption> 
+                                    <figcaption>Total : 0$</figcaption> 
                                     </figure>
                                     <span id="clear" class="btn ">Delete all</span>
                             </div>
@@ -75,7 +83,18 @@
                    
                 </div>
 
-
+        </div>
+    </div>       
+</div> 
+                   
+<div class="popup">
+    <div class="popup-content">
+        <img src="assets/images/close.svg" alt="Close" id="closePopUp">
+        <img style="height: 50px; width:50px" src="assets/images/bread.svg" alt ="">
+        <input class="newPrName" type = "text" placeholder="Product Name">
+        <input id="submProd" type="submit">
+    </div>
+</div>
                 <!--Own JavaScript -->
                 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
                 <script type="text/javascript" src="assets/js/main.js">
